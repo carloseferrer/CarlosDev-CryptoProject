@@ -1,7 +1,7 @@
 # CarlosDev-CryptoProject
 
 ## Description
-Web application developed with React and Styled Components that provides real-time data on the 10 most traded cryptocurrencies on the market. Through seamless integration with the Cryptocompare API, this app provides users with a comprehensive and up-to-date overview of the ever-evolving cryptocurrency landscape.
+Web application developed with React and Styled Components that offers real-time data on the 10 most traded cryptocurrencies on the market. Through seamless integration with the Cryptocompare API, this app provides users with a comprehensive and up-to-date overview of the ever-evolving cryptocurrency landscape.
 
 ## Technologies Used
 <p align="left"> 
