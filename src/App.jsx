@@ -101,10 +101,9 @@ function App() {
           <Heading>View CryptoCurrency prices easily</Heading>
           <Form setCurrencies={setCurrencies} />
           <div ref={resultsContainerRef}>
-
+            {load && <Spinner />}
+            {result.PRICE && <Result result={result} />}
           </div>
-          {load && <Spinner />}
-          {result.PRICE && <Result result={result} />}
         </div>
       </Container>
     </>
