@@ -1,10 +1,10 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import styled from "@emotion/styled";
 import Form from "./components/Form";
 import Result from "./components/Result";
 import Spinner from "./components/Spinner";
 import CryptosImg from "./img/cryptos-img.png";
-import CryptosImg2 from "./img/crypto.png"
+import CryptosImg2 from "./img/crypto.png";
 
 // Styled Components
 
@@ -45,7 +45,7 @@ const Img = styled.img`
   margin: 140px auto 0 auto;
   display: block;
   margin-right: 80px;
-  @media (min-width:768px) and (max-width: 1023px) {
+  @media (min-width: 768px) and (max-width: 1023px) {
     margin-right: 100px;
   }
 `;
@@ -60,41 +60,49 @@ function App() {
   // useState to create a load spinner
   const [load, setLoad] = useState(false);
 
+  // Create a ref for the results container element
+  const resultsContainerRef = useRef(null);
+
   // useEffect for validate data sending
   useEffect(() => {
-    if(Object.keys(currencies).length > 0){
-
+    if (Object.keys(currencies).length > 0) {
       // array destruring to get information from form
-      const {currency, cryptoCurrency} = currencies
+      const { currency, cryptoCurrency } = currencies;
       // dynamic function to get crypto information from API based on form input
-      const listCrypto = async () =>{
-
+      const listCrypto = async () => {
         setLoad(true);
         setResult({});
 
         const url = `https://min-api.cryptocompare.com/data/pricemultifull?fsyms=${cryptoCurrency}&tsyms=${currency}`;
-        console.log("The URL is:", url)
+        console.log("The URL is:", url);
         const response = await fetch(url);
         const result = await response.json();
-        
+
         setResult(result.DISPLAY[cryptoCurrency][currency]);
 
         setLoad(false);
-      }
 
-      // Calling the function 
+        // Scroll to the results container when results are updated
+        resultsContainerRef.current.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
+      };
+
+      // Calling the function
       listCrypto();
     }
-  },[currencies])
+  }, [currencies]);
   return (
     <>
       <Container>
         <Img src={CryptosImg2} alt="Crypto Images" />
         <div>
           <Heading>View CryptoCurrency prices easily</Heading>
-          <Form 
-            setCurrencies={setCurrencies}   
-          />
+          <Form setCurrencies={setCurrencies} />
+          <div ref={resultsContainerRef}>
+
+          </div>
           {load && <Spinner />}
           {result.PRICE && <Result result={result} />}
         </div>
